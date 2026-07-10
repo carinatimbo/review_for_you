@@ -10,3 +10,5 @@ duckdb>=1.0
 pandera>=0.20          # expoe o namespace pandera.pandas usado nos notebooks
 youtube-transcript-api>=1.0   # API v1.x: YouTubeTranscriptApi().fetch()
 pyarrow>=15.0
+PyYAML
+APScheduler

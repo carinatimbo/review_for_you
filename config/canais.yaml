@@ -1,0 +1,43 @@
+# =============================================================================
+# Configuracao declarativa da ingestao perene.
+# A FREQUENCIA de cada canal e decisao de NEGOCIO, nao de codigo:
+# noticia de guerra muda em minutos; review de gadget, em horas.
+# Edite este arquivo para adicionar/remover canais sem tocar no codigo.
+# =============================================================================
+
+# Cada canal precisa do channel_id (UC...). Como descobrir:
+#   - abra o canal no YouTube > "Compartilhar canal" > "Copiar ID do canal"
+#   - ou use scripts/resolver_handle.py @nomedocanal
+canais:
+
+  - nome: "Adrenaline"
+    channel_id: "UCGH4Wx-WL10iB4ZAdewkuDw"   # troque pelo ID real
+    dominio: "reviews"
+    intervalo_min: 360          # alta volatilidade -> janela curta
+    max_videos_por_ciclo: 3
+    vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
+    ativo: true
+
+  - nome: "Canaltech"
+    channel_id: "UC_bXJnsgwOqEPA_-6N6faKw"   # troque pelo ID real
+    dominio: "reviews"
+    intervalo_min: 360          # alta volatilidade -> janela curta
+    max_videos_por_ciclo: 3
+    vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
+    ativo: true
+
+  - nome: "Loop Infinito"
+    channel_id: "UCCbD39MVnMsTLGxsHLnOKlg"   # troque pelo ID real
+    dominio: "reviews"
+    intervalo_min: 360          # alta volatilidade -> janela curta
+    max_videos_por_ciclo: 3
+    vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
+    ativo: true
+
+# Parametros globais do ingestor
+global:
+  idiomas_legenda: ["pt", "pt-BR", "en"]
+  # Modo demo: ignora a API real e gera dados sinteticos deterministicos.
+  # Permite rodar a aula inteira SEM API key e SEM consumir cota.
+  modo_demo: true
+  janela_descoberta_dias: 180   # so considera videos publicados nos ultimos N dias

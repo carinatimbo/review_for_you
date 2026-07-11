@@ -1,0 +1,21 @@
+positivos:
+  - "otimo"
+  - "excelente"
+  - "recomendo"
+  - "impressionante"
+  - "surpreendeu"
+  - "vale a pena"
+  - "adorei"
+  - "perfeito"
+  - "top demais"
+
+negativos:
+  - "ruim"
+  - "pessimo"
+  - "decepcao"
+  - "nao recomendo"
+  - "problema"
+  - "defeito"
+  - "arrependimento"
+  - "fraco"
+  - "nao vale a pena"

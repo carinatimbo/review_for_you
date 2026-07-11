@@ -22,6 +22,7 @@ from pathlib import Path
 import pandas as pd
 import duckdb
 import pandera.pandas as pa
+import yaml
 from pandera.pandas import Column, DataFrameSchema, Check
 
 from .state import StateStore, content_hash
@@ -45,6 +46,12 @@ SILVER_SCHEMA = DataFrameSchema({
     "produto":      Column(str, nullable=False),
     "titulo_video": Column(str, nullable=False), 
 }, coerce=True)
+
+
+def _carregar_sentimento() -> tuple[list[str], list[str]]:
+    with open("config/sentimento.yaml", "r", encoding="utf-8") as f:
+        cfg = yaml.safe_load(f)
+    return cfg.get("positivos", []), cfg.get("negativos", [])
 
 
 def _limpar(texto: str) -> str:
@@ -78,37 +85,49 @@ def _persistir(df: pd.DataFrame, dominio: str, video_id: str, produto: str):
 
 
 def _gold(dominio: str, vocabulario: list[str]):
-    """Consolida o analítico na camada GOLD separando por produto."""
-    # O asterisco triplo (***) garante que o DuckDB leia todas as subpastas de produtos
+    """Consolida o analitico na camada GOLD: menções por termo E polaridade
+    (positiva/negativa) detectada no mesmo trecho de legenda."""
     src = f"./datalake/silver/{dominio}/**/*.parquet"
     con = duckdb.connect()
     termos = "', '".join(vocabulario) if vocabulario else "x"
-    
+    positivos, negativos = _carregar_sentimento()
+    pos_sql = "', '".join(positivos) if positivos else "x"
+    neg_sql = "', '".join(negativos) if negativos else "x"
+
     try:
-        # A query agora agrupa por PRODUTO e por TERMO (opinião/palavra-chave)
         gold = con.execute(f"""
             WITH s AS (SELECT * FROM read_parquet('{src}')),
-                 alvo AS (SELECT UNNEST(['{termos}']) AS termo)
-            SELECT 
+                 alvo AS (SELECT UNNEST(['{termos}']) AS termo),
+                 pos  AS (SELECT UNNEST(['{pos_sql}']) AS termo),
+                 neg  AS (SELECT UNNEST(['{neg_sql}']) AS termo)
+            SELECT
                 s.produto,
-                s.titulo_video, -- 🌟 Agora você pode puxar o título aqui
-                a.termo, 
+                s.titulo_video,
+                a.termo,
                 COUNT(*) AS mencoes,
-                COUNT(DISTINCT s.video_id) AS videos
-            FROM s 
+                COUNT(DISTINCT s.video_id) AS videos,
+                SUM(CASE WHEN EXISTS (
+                    SELECT 1 FROM pos p WHERE s.texto_limpo LIKE '%' || p.termo || '%'
+                ) THEN 1 ELSE 0 END) AS mencoes_positivas,
+                SUM(CASE WHEN EXISTS (
+                    SELECT 1 FROM neg n WHERE s.texto_limpo LIKE '%' || n.termo || '%'
+                ) THEN 1 ELSE 0 END) AS mencoes_negativas
+            FROM s
             JOIN alvo a ON s.texto_limpo LIKE '%' || a.termo || '%'
-            GROUP BY s.produto, s.titulo_video, a.termo 
+            GROUP BY s.produto, s.titulo_video, a.termo
             ORDER BY s.produto, mencoes DESC
         """).df()
-        
+
+        # Índice de aprovação: positivas / (positivas + negativas), por linha
+        denom = gold["mencoes_positivas"] + gold["mencoes_negativas"]
+        gold["indice_aprovacao"] = (gold["mencoes_positivas"] / denom.replace(0, pd.NA)).round(2)
+
         out = Path(f"./datalake/gold/{dominio}")
         out.mkdir(parents=True, exist_ok=True)
-        
-        # Salva o resultado final consolidado por produto
         gold.to_parquet(out / "analise_produtos_gold.parquet", index=False)
         return gold
     except duckdb.IOException:
-        return pd.DataFrame()   # ainda sem dados silver
+        return pd.DataFrame()
     finally:
         con.close()
 

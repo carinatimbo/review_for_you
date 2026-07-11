@@ -77,40 +77,38 @@ def _persistir(df: pd.DataFrame, dominio: str, video_id: str, produto: str):
     df.to_parquet(base / f"{video_id}.parquet", index=False)
 
 
-def _gold(dominio: str, vocabulario: list[str], store: StateStore):
+def _gold(dominio: str, vocabulario: list[str]):
+    """Consolida o analítico na camada GOLD separando por produto."""
+    # O asterisco triplo (***) garante que o DuckDB leia todas as subpastas de produtos
     src = f"./datalake/silver/{dominio}/**/*.parquet"
     con = duckdb.connect()
     termos = "', '".join(vocabulario) if vocabulario else "x"
     
     try:
-        gold_df = con.execute(f"""
+        # A query agora agrupa por PRODUTO e por TERMO (opinião/palavra-chave)
+        gold = con.execute(f"""
             WITH s AS (SELECT * FROM read_parquet('{src}')),
                  alvo AS (SELECT UNNEST(['{termos}']) AS termo)
             SELECT 
                 s.produto,
+                s.titulo_video, -- 🌟 Agora você pode puxar o título aqui
                 a.termo, 
                 COUNT(*) AS mencoes,
                 COUNT(DISTINCT s.video_id) AS videos
             FROM s 
             JOIN alvo a ON s.texto_limpo LIKE '%' || a.termo || '%'
-            GROUP BY s.produto, a.termo 
+            GROUP BY s.produto, s.titulo_video, a.termo 
             ORDER BY s.produto, mencoes DESC
         """).df()
         
-        # 1. Salva na pasta como Parquet (mantendo o que você já tinha)
         out = Path(f"./datalake/gold/{dominio}")
         out.mkdir(parents=True, exist_ok=True)
-        gold_df.to_parquet(out / "analise_produtos_gold.parquet", index=False)
         
-        # 2. 🌟 SALVA DIRETO NO SQLITE:
-        if not gold_df.empty:
-            # Transforma o DataFrame em uma lista de dicionários nativos do Python
-            dados_para_sqlite = gold_df.to_dict(orient="records")
-            store.salvar_analitico_gold(dados_para_sqlite)
-            
-        return gold_df
+        # Salva o resultado final consolidado por produto
+        gold.to_parquet(out / "analise_produtos_gold.parquet", index=False)
+        return gold
     except duckdb.IOException:
-        return pd.DataFrame()
+        return pd.DataFrame()   # ainda sem dados silver
     finally:
         con.close()
 

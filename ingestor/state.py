@@ -39,14 +39,7 @@ CREATE TABLE IF NOT EXISTS channel_watermark (
     videos_total        INTEGER DEFAULT 0
 );
 
-CREATE TABLE IF NOT EXISTS analise_produtos_gold (
-    produto         TEXT NOT NULL,
-    termo           TEXT NOT NULL,
-    mencoes         INTEGER DEFAULT 0,
-    videos          INTEGER DEFAULT 0,
-    atualizado_em   TEXT NOT NULL,
-    PRIMARY KEY (produto, termo)          -- Garante a unicidade do par produto/termo
-);
+
 
 CREATE INDEX IF NOT EXISTS idx_state_channel ON ingestion_state(channel_id);
 CREATE INDEX IF NOT EXISTS idx_state_status  ON ingestion_state(status);
@@ -140,18 +133,6 @@ class StateStore:
                 SET status='FAILED', error=?, attempts=attempts+1
                 WHERE video_id=?
             """, (str(erro)[:300], video_id))
-
-    def salvar_analitico_gold(self, dados_gold: list[dict]) -> None:
-        """Recebe uma lista de dicionários do pandas/gold e persiste usando UPSERT."""
-        with self._conn() as c:
-            # Primeiro limpa os registros antigos para reconstruir a visão consolidada correta
-            c.execute("DELETE FROM analise_produtos_gold")
-            
-            # Insere em lote todos os registros calculados pelo DuckDB
-            c.executemany("""
-                INSERT INTO analise_produtos_gold (produto, termo, mencoes, videos, atualizado_em)
-                VALUES (:produto, :termo, :mencoes, :videos, :atualizado_em)
-            """, [{**dado, "atualizado_em": _now()} for dado in dados_gold])
 
     # --- Observabilidade --------------------------------------------------
     def resumo(self) -> dict:

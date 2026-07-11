@@ -53,7 +53,7 @@ def _limpar(texto: str) -> str:
                     if t not in STOPWORDS and len(t) > 2)
 
 
-def _bronze_silver(video_id, trechos) -> pd.DataFrame:
+def _bronze_silver(video_id, trechos, produto: str, titulo_video: str) -> pd.DataFrame:
     df = pd.DataFrame([
         {"video_id": video_id, "ordem": i, "texto": t["text"],
          "start": float(t["start"]), "duration": float(t["duration"])}
@@ -62,8 +62,11 @@ def _bronze_silver(video_id, trechos) -> pd.DataFrame:
     df["texto_limpo"] = df["texto"].apply(_limpar)
     df = df[df["texto_limpo"].str.len() > 0].copy()
     df["n_palavras"] = df["texto_limpo"].str.split().str.len().fillna(0).astype(int)
+    df["produto"] = produto
+    df["titulo_video"] = titulo_video
     return SILVER_SCHEMA.validate(df[["video_id", "ordem", "texto_limpo",
-                                      "start", "duration", "n_palavras"]])
+                                      "start", "duration", "n_palavras",
+                                      "produto", "titulo_video"]])
 
 
 def _persistir(df: pd.DataFrame, dominio: str, video_id: str, produto: str):
@@ -142,9 +145,7 @@ def rodar_ciclo(canal: dict, glob_cfg: dict, store: StateStore) -> dict:
             continue
         try:
             produto_detectado = identificar_produto_por_palavra_chave(texto_total)
-            df = _bronze_silver(v.video_id, trechos)
-            df["produto"] = produto_detectado
-            df["titulo_video"] = v.title
+            df = _bronze_silver(v.video_id, trechos, produto_detectado, v.title)
             _persistir(df, dom, v.video_id, produto_detectado)
             store.marcar_ingerido(v.video_id, h, len(df))
             ingeridos += 1

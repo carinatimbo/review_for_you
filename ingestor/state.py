@@ -39,6 +39,8 @@ CREATE TABLE IF NOT EXISTS channel_watermark (
     videos_total        INTEGER DEFAULT 0
 );
 
+
+
 CREATE INDEX IF NOT EXISTS idx_state_channel ON ingestion_state(channel_id);
 CREATE INDEX IF NOT EXISTS idx_state_status  ON ingestion_state(status);
 """

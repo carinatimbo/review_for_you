@@ -11,25 +11,25 @@
 canais:
 
   - nome: "Adrenaline"
-    channel_id: "UCGH4Wx-WL10iB4ZAdewkuDw"   # troque pelo ID real
+    channel_id: "UCGH4Wx-WL10iB4ZAdewkuDw"
     dominio: "reviews"
-    intervalo_min: 360          # alta volatilidade -> janela curta
+    intervalo_min: 360
     max_videos_por_ciclo: 3
     vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
     ativo: true
 
   - nome: "Canaltech"
-    channel_id: "UC_bXJnsgwOqEPA_-6N6faKw"   # troque pelo ID real
+    channel_id: "UC_bXJnsgwOqEPA_-6N6faKw"  
     dominio: "reviews"
-    intervalo_min: 360          # alta volatilidade -> janela curta
+    intervalo_min: 360   
     max_videos_por_ciclo: 3
     vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
     ativo: true
 
   - nome: "Loop Infinito"
-    channel_id: "UCCbD39MVnMsTLGxsHLnOKlg"   # troque pelo ID real
+    channel_id: "UCCbD39MVnMsTLGxsHLnOKlg"   
     dominio: "reviews"
-    intervalo_min: 360          # alta volatilidade -> janela curta
+    intervalo_min: 360    
     max_videos_por_ciclo: 3
     vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
     ativo: true
@@ -39,5 +39,5 @@ global:
   idiomas_legenda: ["pt", "pt-BR", "en"]
   # Modo demo: ignora a API real e gera dados sinteticos deterministicos.
   # Permite rodar a aula inteira SEM API key e SEM consumir cota.
-  modo_demo: true
+  modo_demo: false
   janela_descoberta_dias: 180   # so considera videos publicados nos ultimos N dias

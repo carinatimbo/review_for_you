@@ -12,3 +12,6 @@ youtube-transcript-api>=1.0   # API v1.x: YouTubeTranscriptApi().fetch()
 pyarrow>=15.0
 PyYAML
 APScheduler
+google-api-python-client 
+google-auth-httplib2 
+google-auth-oauthlib

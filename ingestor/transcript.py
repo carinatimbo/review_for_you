@@ -70,4 +70,4 @@ def identificar_produto_por_palavra_chave(texto_transcricao: str) -> str:
         produto_vencedor = max(score_produtos, key=score_produtos.get)
         return produto_vencedor
         
-    return "Desconhecido"
+    return None;

@@ -23,6 +23,7 @@ import os
 import random
 from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta, timezone
+from .transcript import identificar_produto_por_palavra_chave
 
 youtube_key = "AIzaSyDZwAEZKBG-LnL0uj19WqGotiFl5NEy7zY"
 
@@ -71,24 +72,64 @@ class YouTubeDiscovery:
         return items[0]["contentDetails"]["relatedPlaylists"]["uploads"]
 
     def descobrir(self, channel_id: str, since_iso: str | None,
-                  max_videos: int, janela_dias: int) -> list[VideoMeta]:
+              max_videos: int, janela_dias: int) -> list[VideoMeta]:
         uploads = self._uploads_playlist(channel_id)
         corte = datetime.now(timezone.utc) - timedelta(days=janela_dias)
-        ids, page = [], None
-        while len(ids) < max_videos:
+        
+        videos_validos: list[VideoMeta] = []
+        page = None
+        
+        # O loop continua até encontrarmos a quantidade real de MAX_VIDEOS válidos
+        while len(videos_validos) < max_videos:
             resp = self._client().playlistItems().list(
-                part="contentDetails", playlistId=uploads,
-                maxResults=min(50, max_videos), pageToken=page).execute()
-            for it in resp.get("items", []):
+                part="contentDetails", 
+                playlistId=uploads,
+                maxResults=50, # Pegamos o máximo por página para otimizar as chamadas
+                pageToken=page
+            ).execute()
+
+            items = resp.get("items", [])
+            if not items:
+                break
+
+            # Coleta os IDs deste bloco/página para hidratar e obter os títulos de uma vez só (otimiza cota da API)
+            ids_do_bloco = []
+            for it in items:
                 pub = it["contentDetails"].get("videoPublishedAt", "")
+                
+                # Se bateu no watermark (já processado em ciclos anteriores), encerra tudo
                 if since_iso and pub <= since_iso:
-                    return self._hidratar(channel_id, ids)  # passou do watermark
+                    if ids_do_bloco:
+                        # Hidrata e filtra o último bloco antes de sair
+                        videos_hidratados = self._hidratar(channel_id, ids_do_bloco)
+                        for v in videos_hidratados:
+                            if identificar_produto_por_palavra_chave(v.title) is not None:
+                                videos_validos.append(v)
+                    return videos_validos[:max_videos]
+
+                # Se estiver dentro da janela de dias permitida, adiciona para análise
                 if pub and pub >= corte.isoformat():
-                    ids.append(it["contentDetails"]["videoId"])
+                    ids_do_bloco.append(it["contentDetails"]["videoId"])
+
+            # Se encontramos IDs candidatos nesta página, vamos checar os títulos deles
+            if ids_do_bloco:
+                # Busca os metadados (incluindo o título) de todos os vídeos deste bloco
+                videos_hidratados = self._hidratar(channel_id, ids_do_bloco)
+                
+                # Só adiciona na lista final os vídeos que derem MATCH com o produto no título
+                for v in videos_hidratados:
+                    if identificar_produto_por_palavra_chave(v.title) is not None:
+                        videos_validos.append(v)
+                        # Se atingir o máximo dentro do loop do bloco, podemos parar
+                        if len(videos_validos) >= max_videos:
+                            return videos_validos[:max_videos]
+
+            # Avança para a próxima página do canal se ainda não atingiu o max_videos
             page = resp.get("nextPageToken")
             if not page:
                 break
-        return self._hidratar(channel_id, ids[:max_videos])
+
+        return videos_validos[:max_videos]
 
     def _hidratar(self, channel_id: str, ids: list[str]) -> list[VideoMeta]:
         if not ids:

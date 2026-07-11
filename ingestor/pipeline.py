@@ -43,7 +43,7 @@ SILVER_SCHEMA = DataFrameSchema({
     "duration":     Column(float, Check.gt(0)),
     "n_palavras":   Column(int, Check.ge(1)),
     "produto":      Column(str, nullable=False),
-    "titulo_video": Column(str, nullable=False), # 🌟 ADICIONE ESTA LINHA
+    "titulo_video": Column(str, nullable=False), 
 }, coerce=True)
 
 
@@ -55,7 +55,7 @@ def _limpar(texto: str) -> str:
 
 def _bronze_silver(video_id, trechos, produto: str, titulo_video: str) -> pd.DataFrame:
     df = pd.DataFrame([
-        {"video_id": video_id, "ordem": i, "texto": t["text"],
+        {"video_id": video_id, "ordem": i, "texto": t["text"], "produto": t["produto"],
          "start": float(t["start"]), "duration": float(t["duration"])}
         for i, t in enumerate(trechos)
     ])

@@ -1,0 +1,71 @@
+# config/produtos.yaml
+
+produtos:
+  # --- SMARTPHONES ---
+  iphone_15_pro:
+    nome_ouro: "iPhone 15 Pro"
+    termos: ["iphone 15 pro", "iphone 15pro", "15 pro max", "iphone 15 pro max"]
+
+  iphone_16_pro:
+    nome_ouro: "iPhone 16 Pro"
+    termos: ["iphone 16 pro", "iphone 16pro", "16 pro max", "iphone 16 pro max"]
+
+  galaxy_s24_ultra:
+    nome_ouro: "Samsung Galaxy S24 Ultra"
+    termos: ["galaxy s24 ultra", "s24 ultra", "s24ultra", "samsung s24"]
+
+  galaxy_s26_ultra:
+    nome_ouro: "Samsung Galaxy S26 Ultra"
+    termos: ["galaxy s26 ultra", "s26 ultra", "s26ultra", "samsung s26"]
+
+  # --- CONSOLES E GAMES ---
+  playstation_5:
+    nome_ouro: "PlayStation 5"
+    termos: ["playstation 5", "ps5", "play 5", "ps5 pro", "console da sony"]
+
+  nintendo_switch_2:
+    nome_ouro: "Nintendo Switch 2"
+    termos: ["nintendo switch 2", "switch 2", "novo switch", "sucessor do switch"]
+
+  xbox_series_x:
+    nome_ouro: "Xbox Series X"
+    termos: ["xbox series x", "series x", "xbox x", "console da microsoft"]
+
+  # --- ÁUDIO / FONES DE OUVIDO ---
+  sony_wh_1000xm4:
+    nome_ouro: "Sony WH-1000XM4"
+    termos: ["wh-1000xm4", "fone da sony", "xm4", "wh1000xm4"]
+
+  sony_wh_1000xm5:
+    nome_ouro: "Sony WH-1000XM5"
+    termos: ["wh-1000xm5", "xm5", "wh1000xm5"]
+
+  airpods_pro_2:
+    nome_ouro: "Apple AirPods Pro 2"
+    termos: ["airpods pro 2", "airpod pro 2", "airpods da apple"]
+
+  galaxy_buds_3_pro:
+    nome_ouro: "Samsung Galaxy Buds 3 Pro"
+    termos: ["galaxy buds 3 pro", "buds 3 pro", "buds da samsung"]
+
+  # --- NOTEBOOKS / COMPUTADORES ---
+  macbook_air_m3:
+    nome_ouro: "MacBook Air M3"
+    termos: ["macbook air m3", "macbook m3", "air m3"]
+
+  macbook_pro_m4:
+    nome_ouro: "MacBook Pro M4"
+    termos: ["macbook pro m4", "macbook m4", "pro m4"]
+
+  dell_xps_13:
+    nome_ouro: "Dell XPS 13"
+    termos: ["dell xps 13", "xps 13", "dell xps"]
+
+  # --- SMARTWATCHES / WEARABLES ---
+  apple_watch_ultra:
+    nome_ouro: "Apple Watch Ultra"
+    termos: ["apple watch ultra", "watch ultra", "relogio da apple"]
+
+  galaxy_watch_7:
+    nome_ouro: "Samsung Galaxy Watch 7"
+    termos: ["galaxy watch 7", "watch 7", "relogio da samsung"]

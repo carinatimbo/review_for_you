@@ -27,6 +27,7 @@ from pandera.pandas import Column, DataFrameSchema, Check
 from .state import StateStore, content_hash
 from .discovery import get_discovery
 from .transcript import extrair_transcricao
+from .transcript import identificar_produto_por_palavra_chave
 
 log = logging.getLogger("ingestor")
 
@@ -35,12 +36,14 @@ STOPWORDS = {"entao", "olha", "ne", "tipo", "veja", "bem", "o", "a", "que",
 
 # Mesmo contrato Silver dos 10 notebooks (Desafio 1), incluindo n_palavras.
 SILVER_SCHEMA = DataFrameSchema({
-    "video_id":    Column(str, nullable=False),
-    "ordem":       Column(int, Check.ge(0)),
-    "texto_limpo": Column(str, Check.str_length(min_value=1)),
-    "start":       Column(float, Check.ge(0)),
-    "duration":    Column(float, Check.gt(0)),
-    "n_palavras":  Column(int, Check.ge(1)),
+    "video_id":     Column(str, nullable=False),
+    "ordem":        Column(int, Check.ge(0)),
+    "texto_limpo":  Column(str, Check.str_length(min_value=1)),
+    "start":        Column(float, Check.ge(0)),
+    "duration":     Column(float, Check.gt(0)),
+    "n_palavras":   Column(int, Check.ge(1)),
+    "produto":      Column(str, nullable=False),
+    "titulo_video": Column(str, nullable=False), # 🌟 ADICIONE ESTA LINHA
 }, coerce=True)
 
 
@@ -63,31 +66,43 @@ def _bronze_silver(video_id, trechos) -> pd.DataFrame:
                                       "start", "duration", "n_palavras"]])
 
 
-def _persistir(df: pd.DataFrame, dominio: str, video_id: str):
+def _persistir(df: pd.DataFrame, dominio: str, video_id: str, produto: str):
     dia = datetime.now(timezone.utc).strftime("%Y-%m-%d")
-    base = Path(f"./datalake/silver/dominio={dominio}/dt={dia}")
+    produto_pasta = produto.lower().replace(" ", "_").replace("/", "-")
+    base = Path(f"./datalake/silver/{dominio}/{produto_pasta}/{dia}")
     base.mkdir(parents=True, exist_ok=True)
     df.to_parquet(base / f"{video_id}.parquet", index=False)
 
 
 def _gold(dominio: str, vocabulario: list[str]):
-    """Analitico simples e generico: densidade de termos-alvo do dominio.
-    (cada turma especializa este SQL conforme o notebook de referencia)."""
-    src = f"./datalake/silver/dominio={dominio}/**/*.parquet"
+    """Consolida o analítico na camada GOLD separando por produto."""
+    # O asterisco triplo (***) garante que o DuckDB leia todas as subpastas de produtos
+    src = f"./datalake/silver/{dominio}/**/*.parquet"
     con = duckdb.connect()
     termos = "', '".join(vocabulario) if vocabulario else "x"
+    
     try:
+        # A query agora agrupa por PRODUTO e por TERMO (opinião/palavra-chave)
         gold = con.execute(f"""
             WITH s AS (SELECT * FROM read_parquet('{src}')),
                  alvo AS (SELECT UNNEST(['{termos}']) AS termo)
-            SELECT a.termo, COUNT(*) AS mencoes,
-                   COUNT(DISTINCT s.video_id) AS videos
-            FROM s JOIN alvo a ON s.texto_limpo LIKE '%' || a.termo || '%'
-            GROUP BY a.termo ORDER BY mencoes DESC
+            SELECT 
+                s.produto,
+                s.titulo_video, -- 🌟 Agora você pode puxar o título aqui
+                a.termo, 
+                COUNT(*) AS mencoes,
+                COUNT(DISTINCT s.video_id) AS videos
+            FROM s 
+            JOIN alvo a ON s.texto_limpo LIKE '%' || a.termo || '%'
+            GROUP BY s.produto, s.titulo_video, a.termo 
+            ORDER BY s.produto, mencoes DESC
         """).df()
-        out = Path(f"./datalake/gold/dominio={dominio}")
+        
+        out = Path(f"./datalake/gold/{dominio}")
         out.mkdir(parents=True, exist_ok=True)
-        gold.to_parquet(out / "densidade_termos.parquet", index=False)
+        
+        # Salva o resultado final consolidado por produto
+        gold.to_parquet(out / "analise_produtos_gold.parquet", index=False)
         return gold
     except duckdb.IOException:
         return pd.DataFrame()   # ainda sem dados silver
@@ -126,8 +141,11 @@ def rodar_ciclo(canal: dict, glob_cfg: dict, store: StateStore) -> dict:
             pulados += 1
             continue
         try:
+            produto_detectado = identificar_produto_por_palavra_chave(texto_total)
             df = _bronze_silver(v.video_id, trechos)
-            _persistir(df, dom, v.video_id)
+            df["produto"] = produto_detectado
+            df["titulo_video"] = v.title
+            _persistir(df, dom, v.video_id, produto_detectado)
             store.marcar_ingerido(v.video_id, h, len(df))
             ingeridos += 1
         except (pa.errors.SchemaError, Exception) as e:

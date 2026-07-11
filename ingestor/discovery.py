@@ -104,6 +104,7 @@ class YouTubeDiscovery:
                         videos_hidratados = self._hidratar(channel_id, ids_do_bloco)
                         for v in videos_hidratados:
                             if identificar_produto_por_palavra_chave(v.title) is not None:
+                                v.product = identificar_produto_por_palavra_chave(v.title)
                                 videos_validos.append(v)
                     return videos_validos[:max_videos]
 
@@ -119,6 +120,7 @@ class YouTubeDiscovery:
                 # Só adiciona na lista final os vídeos que derem MATCH com o produto no título
                 for v in videos_hidratados:
                     if identificar_produto_por_palavra_chave(v.title) is not None:
+                        v.product = identificar_produto_por_palavra_chave(v.title)
                         videos_validos.append(v)
                         # Se atingir o máximo dentro do loop do bloco, podemos parar
                         if len(videos_validos) >= max_videos:

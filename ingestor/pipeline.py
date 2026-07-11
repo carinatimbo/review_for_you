@@ -19,6 +19,7 @@ import logging
 from datetime import datetime, timezone
 from pathlib import Path
 
+import numpy as np
 import pandas as pd
 import duckdb
 import pandera.pandas as pa
@@ -119,8 +120,8 @@ def _gold(dominio: str, vocabulario: list[str]):
         """).df()
 
         # Índice de aprovação: positivas / (positivas + negativas), por linha
-        denom = gold["mencoes_positivas"] + gold["mencoes_negativas"]
-        gold["indice_aprovacao"] = (gold["mencoes_positivas"] / denom.replace(0, pd.NA)).round(2)
+        denom = (gold["mencoes_positivas"] + gold["mencoes_negativas"]).astype(float)
+        gold["indice_aprovacao"] = (gold["mencoes_positivas"] / denom.replace(0, np.nan)).round(2)
 
         out = Path(f"./datalake/gold/{dominio}")
         out.mkdir(parents=True, exist_ok=True)

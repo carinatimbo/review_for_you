@@ -15,7 +15,7 @@ canais:
     dominio: "reviews"
     intervalo_min: 360
     max_videos_por_ciclo: 10
-    vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
     ativo: true
 
   - nome: "Canaltech"
@@ -23,7 +23,7 @@ canais:
     dominio: "reviews"
     intervalo_min: 360   
     max_videos_por_ciclo: 10
-    vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
     ativo: true
 
   - nome: "Loop Infinito"
@@ -31,7 +31,7 @@ canais:
     dominio: "reviews"
     intervalo_min: 360    
     max_videos_por_ciclo: 10
-    vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
     ativo: true
 
 # Parametros globais do ingestor

@@ -55,7 +55,7 @@ def _limpar(texto: str) -> str:
 
 def _bronze_silver(video_id, trechos, produto: str, titulo_video: str) -> pd.DataFrame:
     df = pd.DataFrame([
-        {"video_id": video_id, "ordem": i, "texto": t["text"], "produto": t["produto"],
+        {"video_id": video_id, "ordem": i, "texto": t["text"],
          "start": float(t["start"]), "duration": float(t["duration"])}
         for i, t in enumerate(trechos)
     ])
@@ -144,9 +144,8 @@ def rodar_ciclo(canal: dict, glob_cfg: dict, store: StateStore) -> dict:
             pulados += 1
             continue
         try:
-            produto_detectado = identificar_produto_por_palavra_chave(texto_total)
-            df = _bronze_silver(v.video_id, trechos, produto_detectado, v.title)
-            _persistir(df, dom, v.video_id, produto_detectado)
+            df = _bronze_silver(v.video_id, trechos, v.product, v.title)
+            _persistir(df, dom, v.video_id, v.product)
             store.marcar_ingerido(v.video_id, h, len(df))
             ingeridos += 1
         except (pa.errors.SchemaError, Exception) as e:

@@ -14,7 +14,7 @@ canais:
     channel_id: "UCGH4Wx-WL10iB4ZAdewkuDw"
     dominio: "reviews"
     intervalo_min: 360
-    max_videos_por_ciclo: 3
+    max_videos_por_ciclo: 10
     vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
     ativo: true
 
@@ -22,17 +22,17 @@ canais:
     channel_id: "UC_bXJnsgwOqEPA_-6N6faKw"  
     dominio: "reviews"
     intervalo_min: 360   
-    max_videos_por_ciclo: 3
+    max_videos_por_ciclo: 10
     vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
-    ativo: false
+    ativo: true
 
   - nome: "Loop Infinito"
     channel_id: "UCCbD39MVnMsTLGxsHLnOKlg"   
     dominio: "reviews"
     intervalo_min: 360    
-    max_videos_por_ciclo: 3
+    max_videos_por_ciclo: 10
     vocabulario: ["bateria", "tela", "aquecimento", "trava", "camera"]
-    ativo: false
+    ativo: true
 
 # Parametros globais do ingestor
 global:

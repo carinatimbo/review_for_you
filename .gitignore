@@ -7,7 +7,6 @@ ENV/
 .vscode/
 
 # Dados / Datalake (Ignorar arquivos locais de dados)
-datalake/
 
 # Cache do Python
 __pycache__/

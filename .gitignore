@@ -2,12 +2,13 @@
 .venv/
 venv/
 ENV/
+.env/
 
 # Configurações do Editor (VS Code)
 .vscode/
 
 # Dados / Datalake (Ignorar arquivos locais de dados)
-datalake/
+
 
 # Cache do Python
 __pycache__/

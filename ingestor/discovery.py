@@ -25,8 +25,6 @@ from dataclasses import dataclass, asdict
 from datetime import datetime, timedelta, timezone
 from .transcript import identificar_produto_por_palavra_chave
 
-youtube_key = "AIzaSyDZwAEZKBG-LnL0uj19WqGotiFl5NEy7zY"
-
 @dataclass
 class VideoMeta:
     video_id: str
@@ -53,7 +51,7 @@ class VideoMeta:
 # ---------------------------------------------------------------------------
 class YouTubeDiscovery:
     def __init__(self, api_key: str | None = None):
-        self.api_key = api_key or os.getenv("YOUTUBE_API_KEY") or youtube_key
+        self.api_key = api_key or os.getenv("YOUTUBE_API_KEY")
         self._yt = None
 
     def _client(self):

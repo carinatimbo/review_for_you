@@ -98,25 +98,32 @@ def _gold(dominio: str, vocabulario: list[str]):
     try:
         gold = con.execute(f"""
             WITH s AS (SELECT * FROM read_parquet('{src}')),
-                 alvo AS (SELECT UNNEST(['{termos}']) AS termo),
-                 pos  AS (SELECT UNNEST(['{pos_sql}']) AS termo),
-                 neg  AS (SELECT UNNEST(['{neg_sql}']) AS termo)
+                contexto AS (
+                    SELECT *,
+                            STRING_AGG(texto_limpo, ' ') OVER (
+                                PARTITION BY video_id
+                                ORDER BY ordem
+                                ROWS BETWEEN 2 PRECEDING AND 2 FOLLOWING
+                            ) AS texto_janela
+                    FROM s
+                ),
+                alvo AS (SELECT UNNEST(['{termos}']) AS termo),
+                pos  AS (SELECT UNNEST(['{pos_sql}']) AS termo),
+                neg  AS (SELECT UNNEST(['{neg_sql}']) AS termo)
             SELECT
-                s.produto,
-                s.titulo_video,
-                a.termo,
+                c.produto, c.titulo_video, a.termo,
                 COUNT(*) AS mencoes,
-                COUNT(DISTINCT s.video_id) AS videos,
+                COUNT(DISTINCT c.video_id) AS videos,
                 SUM(CASE WHEN EXISTS (
-                    SELECT 1 FROM pos p WHERE s.texto_limpo LIKE '%' || p.termo || '%'
+                    SELECT 1 FROM pos p WHERE c.texto_janela LIKE '%' || p.termo || '%'
                 ) THEN 1 ELSE 0 END) AS mencoes_positivas,
                 SUM(CASE WHEN EXISTS (
-                    SELECT 1 FROM neg n WHERE s.texto_limpo LIKE '%' || n.termo || '%'
+                    SELECT 1 FROM neg n WHERE c.texto_janela LIKE '%' || n.termo || '%'
                 ) THEN 1 ELSE 0 END) AS mencoes_negativas
-            FROM s
-            JOIN alvo a ON s.texto_limpo LIKE '%' || a.termo || '%'
-            GROUP BY s.produto, s.titulo_video, a.termo
-            ORDER BY s.produto, mencoes DESC
+            FROM contexto c
+            JOIN alvo a ON c.texto_limpo LIKE '%' || a.termo || '%'
+            GROUP BY c.produto, c.titulo_video, a.termo
+            ORDER BY c.produto, mencoes DESC
         """).df()
 
         # Índice de aprovação: positivas / (positivas + negativas), por linha

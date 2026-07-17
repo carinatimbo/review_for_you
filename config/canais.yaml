@@ -16,7 +16,7 @@ canais:
     intervalo_min: 360
     max_videos_por_ciclo: 10
     vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
-    ativo: true
+    ativo: false
 
   - nome: "Canaltech"
     channel_id: "UC_bXJnsgwOqEPA_-6N6faKw"  
@@ -32,7 +32,63 @@ canais:
     intervalo_min: 360    
     max_videos_por_ciclo: 10
     vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
-    ativo: true
+    ativo: false
+
+  - nome: "EscolhaSegura"
+    channel_id: "UCDUdvPnNWjQCif_GnrhUE6Q"
+    dominio: "reviews"
+    intervalo_min: 360
+    max_videos_por_ciclo: 10
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
+    ativo: false
+
+  - nome: "TecMundo"
+    channel_id: "UCdmGjywrxeOPfC7vDllmSgQ"
+    dominio: "reviews"
+    intervalo_min: 360
+    max_videos_por_ciclo: 10
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
+    ativo: false
+
+  - nome: "Mundo Conectado"
+    channel_id: "UCb2vlvWWwJP9YquvIV3NhpQ"
+    dominio: "reviews"
+    intervalo_min: 360
+    max_videos_por_ciclo: 10
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
+    ativo: false
+
+  - nome: "Be!Tech"
+    channel_id: "UCnnAzRbUm_6mSqyqAJSkc_A"
+    dominio: "reviews"
+    intervalo_min: 360
+    max_videos_por_ciclo: 10
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
+    ativo: false
+
+  - nome: "TecLab"
+    channel_id: "UC7U72Ze-y8s4hvAmRvhXPgQ"
+    dominio: "reviews"
+    intervalo_min: 360
+    max_videos_por_ciclo: 10
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
+    ativo: false
+
+  - nome: "Qual Notebook Comprar"
+    channel_id: "UCA73zrCmA27psXOOz4yQr8Q"
+    dominio: "reviews"
+    intervalo_min: 360
+    max_videos_por_ciclo: 10
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
+    ativo: false
+
+  - nome: "Peperaio Hardware"
+    channel_id: "UCyJfHnEgLnvrjQcPsR3UVeQ"
+    dominio: "reviews"
+    intervalo_min: 360
+    max_videos_por_ciclo: 10
+    vocabulario: [ "bateria", "tela", "aquecimento", "trava", "camera", "carregador", "autonomia", "durabilidade", "display", "brilho", "nits", "resolucao", "desempenho", "performance", "engasgo", "gargalo", "fps", "processador", "esquenta", "temperatura", "construcao", "acabamento", "lente", "sensor", "zoom", "estabilizacao",  "preco", "vale a pena", "caro", "barato", "custo beneficio", "recomendo" ]
+    ativo: false
 
 # Parametros globais do ingestor
 global:

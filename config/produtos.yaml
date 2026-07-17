@@ -69,3 +69,192 @@ produtos:
   galaxy_watch_7:
     nome_ouro: "Samsung Galaxy Watch 7"
     termos: ["galaxy watch 7", "watch 7", "relogio da samsung"]
+# --- NOTEBOOKS / COMPUTADORES (expandido) ---
+  macbook_air_m3:
+    nome_ouro: "MacBook Air M3"
+    termos: ["macbook air m3", "macbook m3", "air m3"]
+
+  macbook_pro_m4:
+    nome_ouro: "MacBook Pro M4"
+    termos: ["macbook pro m4", "macbook m4", "pro m4"]
+
+  dell_xps_13:
+    nome_ouro: "Dell XPS 13"
+    termos: ["dell xps 13", "xps 13", "dell xps"]
+
+  acer_nitro_5:
+    nome_ouro: "Acer Nitro 5"
+    termos: ["nitro 5", "acer nitro", "acer nitro 5"]
+
+  acer_aspire:
+    nome_ouro: "Acer Aspire"
+    termos: ["acer aspire", "aspire 5", "aspire 3"]
+
+  lenovo_legion:
+    nome_ouro: "Lenovo Legion"
+    termos: ["lenovo legion", "legion 5", "legion pro"]
+
+  lenovo_ideapad:
+    nome_ouro: "Lenovo IdeaPad"
+    termos: ["lenovo ideapad", "ideapad 3", "ideapad slim"]
+
+  asus_rog_strix:
+    nome_ouro: "Asus ROG Strix"
+    termos: ["rog strix", "asus rog", "notebook rog"]
+
+  asus_vivobook:
+    nome_ouro: "Asus Vivobook"
+    termos: ["asus vivobook", "vivobook 15", "vivobook pro"]
+
+  hp_victus:
+    nome_ouro: "HP Victus"
+    termos: ["hp victus", "victus 15", "notebook victus"]
+
+  hp_pavilion:
+    nome_ouro: "HP Pavilion"
+    termos: ["hp pavilion", "pavilion gaming", "pavilion 15"]
+
+  # --- PLACAS DE VIDEO (GPUs) ---
+  rtx_4060:
+    nome_ouro: "NVIDIA RTX 4060"
+    termos: ["rtx 4060", "geforce rtx 4060", "4060"]
+
+  rtx_4070:
+    nome_ouro: "NVIDIA RTX 4070"
+    termos: ["rtx 4070", "geforce rtx 4070", "4070"]
+
+  rtx_5070:
+    nome_ouro: "NVIDIA RTX 5070"
+    termos: ["rtx 5070", "geforce rtx 5070", "5070"]
+
+  rtx_5070_ti:
+    nome_ouro: "NVIDIA RTX 5070 Ti"
+    termos: ["rtx 5070 ti", "5070ti", "5070 ti"]
+
+  rtx_5080:
+    nome_ouro: "NVIDIA RTX 5080"
+    termos: ["rtx 5080", "geforce rtx 5080", "5080"]
+
+  rtx_5090:
+    nome_ouro: "NVIDIA RTX 5090"
+    termos: ["rtx 5090", "geforce rtx 5090", "5090"]
+
+  radeon_rx_7700xt:
+    nome_ouro: "AMD Radeon RX 7700 XT"
+    termos: ["rx 7700xt", "rx 7700 xt", "radeon 7700"]
+
+  radeon_rx_9070xt:
+    nome_ouro: "AMD Radeon RX 9070 XT"
+    termos: ["rx 9070xt", "rx 9070 xt", "radeon 9070"]
+
+  # --- PROCESSADORES (CPUs) ---
+  ryzen_7_8700g:
+    nome_ouro: "AMD Ryzen 7 8700G"
+    termos: ["ryzen 7 8700g", "8700g", "ryzen 8700g"]
+
+  ryzen_9000_series:
+    nome_ouro: "AMD Ryzen 9000"
+    termos: ["ryzen 9000", "ryzen 9 9950x", "ryzen 7 9700x", "ryzen 5 9600x"]
+
+  intel_core_i5:
+    nome_ouro: "Intel Core i5"
+    termos: ["core i5", "intel i5", "i5 13th", "i5 14th"]
+
+  intel_core_i7:
+    nome_ouro: "Intel Core i7"
+    termos: ["core i7", "intel i7", "i7 13th", "i7 14th"]
+
+  intel_core_ultra:
+    nome_ouro: "Intel Core Ultra"
+    termos: ["core ultra", "intel core ultra", "ultra 9", "ultra 7"]
+# --- SMARTPHONES ANDROID (Xiaomi / Motorola / Realme) ---
+  xiaomi_13t:
+    nome_ouro: "Xiaomi 13T"
+    termos: ["xiaomi 13t", "mi 13t", "xiaomi 13 t"]
+
+  xiaomi_14:
+    nome_ouro: "Xiaomi 14"
+    termos: ["xiaomi 14", "mi 14", "xiaomi quatorze"]
+
+  poco_x6_pro:
+    nome_ouro: "Poco X6 Pro"
+    termos: ["poco x6 pro", "poco x6pro"]
+
+  poco_f6:
+    nome_ouro: "Poco F6"
+    termos: ["poco f6", "poco f6 5g"]
+
+  redmi_note_13_pro:
+    nome_ouro: "Redmi Note 13 Pro"
+    termos: ["redmi note 13 pro", "redmi note 13pro"]
+
+  moto_edge_50:
+    nome_ouro: "Motorola Edge 50"
+    termos: ["moto edge 50", "motorola edge 50"]
+
+  moto_g84:
+    nome_ouro: "Motorola Moto G84"
+    termos: ["moto g84", "motorola g84"]
+
+  realme_gt_6:
+    nome_ouro: "Realme GT 6"
+    termos: ["realme gt 6", "realme gt6"]
+
+  galaxy_a55:
+    nome_ouro: "Samsung Galaxy A55"
+    termos: ["galaxy a55", "samsung a55"]
+
+  galaxy_z_flip6:
+    nome_ouro: "Samsung Galaxy Z Flip6"
+    termos: ["galaxy z flip6", "galaxy z flip 6", "z flip6"]
+
+  galaxy_z_fold6:
+    nome_ouro: "Samsung Galaxy Z Fold6"
+    termos: ["galaxy z fold6", "galaxy z fold 6", "z fold6"]
+
+  # --- NOTEBOOKS ADICIONAIS (marcas populares no Brasil) ---
+  samsung_book_go:
+    nome_ouro: "Samsung Book Go"
+    termos: ["samsung book go", "book go"]
+
+  positivo_vision:
+    nome_ouro: "Positivo Vision"
+    termos: ["positivo vision", "notebook positivo"]
+
+  dell_inspiron:
+    nome_ouro: "Dell Inspiron"
+    termos: ["dell inspiron", "inspiron 15", "inspiron 14"]
+
+  dell_g15:
+    nome_ouro: "Dell G15"
+    termos: ["dell g15", "notebook g15 dell"]
+
+  # --- FONES DE OUVIDO ADICIONAIS ---
+  jbl_tune_770nc:
+    nome_ouro: "JBL Tune 770NC"
+    termos: ["jbl tune 770nc", "jbl tune 770 nc"]
+
+  jbl_live_770nc:
+    nome_ouro: "JBL Live 770NC"
+    termos: ["jbl live 770nc", "jbl live 770 nc"]
+
+  xiaomi_buds_5:
+    nome_ouro: "Xiaomi Buds 5"
+    termos: ["xiaomi buds 5", "mi buds 5"]
+
+  soundcore_liberty:
+    nome_ouro: "Anker Soundcore Liberty"
+    termos: ["soundcore liberty", "anker liberty"]
+
+  beats_fit_pro:
+    nome_ouro: "Beats Fit Pro"
+    termos: ["beats fit pro", "beats fit"]
+
+  # --- WEARABLES ADICIONAIS ---
+  mi_band_9:
+    nome_ouro: "Xiaomi Mi Band 9"
+    termos: ["mi band 9", "xiaomi band 9", "miband 9"]
+
+  amazfit_gtr:
+    nome_ouro: "Amazfit GTR"
+    termos: ["amazfit gtr", "amazfit gtr mini"]

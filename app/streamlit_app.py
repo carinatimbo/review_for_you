@@ -152,7 +152,6 @@ st.markdown(
         letter-spacing: 1.5px;
         color: {COR_TEXTO_MUTED};
         text-transform: uppercase;
-        margin-bottom: 14px;
     }}
     .signal-card-stats {{
         font-family: 'IBM Plex Mono', monospace;
@@ -279,7 +278,7 @@ if produto_selecionado == "Todos":
     st.markdown('<div class="secao-label">Sinal por produto</div>', unsafe_allow_html=True)
 
     registros = df_produtos.to_dict("records")
-    colunas_por_linha = 3
+    colunas_por_linha = 4
 
     for i in range(0, len(registros), colunas_por_linha):
         cols = st.columns(colunas_por_linha)
@@ -290,8 +289,8 @@ if produto_selecionado == "Todos":
                     f"""
                     <div class="signal-card" style="--faixa-cor: {cor};">
                         <div class="signal-card-titulo">{prod['produto']}</div>
-                        <div class="signal-card-pct" style="color:{cor};">{prod['indice_aprovacao']}%</div>
                         <div class="signal-card-eyebrow">Índice de aprovação</div>
+                        <div class="signal-card-pct" style="color:{cor};">{prod['indice_aprovacao']}%</div>
                         {barra_sinal(prod['indice_aprovacao'], cor)}
                         <div class="signal-card-stats">
                             <div class="stat-row"><span class="stat-label">Menções</span><span>{int(prod['total_mencoes'])}</span></div>
